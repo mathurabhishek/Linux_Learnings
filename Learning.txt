@@ -42,6 +42,12 @@ System Calls
 	8.	To read man page of system calls use : man system_call 2 ( remmeber 2 is for system calls. 1 is for coammands).
 		So 'man kill 1' is for 'kill' command
 
+Linux Kernel Messages
+	1.	printk is used for printing deubug messages
+	2.	with dmesg, we read the messages from RAM buffer
+	3	journalctl is the one which could be used to see historic messages on the disk
+
+
 	
 
 
