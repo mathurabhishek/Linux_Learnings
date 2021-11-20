@@ -1,0 +1,47 @@
+Advanced Linux
+
+
+What is kernel?
+	Kernel is just another program with name vmlinuz-<kernelversion>
+	Kernel, like any other program, accepts command line paramaters.
+	These parameters are provided to the kernel by the bootloader,
+	GRUB
+
+How to interact with kernel ?
+
+APIs
+	APIs provided by kernel are called System Calls. These are the functions which can be called from
+	user space into the kernel.
+
+FileSystems
+	proc, sys,debugfs, devicefiles to interact with devices
+
+What does kernel do?
+	Gatekeeper. Enforces privelages.
+	Root processes - all privelages. Some CPU instructions can only be executed by linux kernel
+	Security Policies. Controls access to hardware.
+
+About kernel
+	small size. boots to user space. additional functionality can be loaded from user space.kernel program
+	is located in /boot
+
+System Calls
+	1.	System calls are functions implemented by the Linux kernel which are meant to be called from the
+		user space. List of system calls is available in include/uapi/asm-generic/unistd.h in kernel source.
+	2.	Number of system calls varies from architecture to architecture
+		and with kernel versions. 
+	3.	System calls are documented in man section 2.
+	4.	System call wrappers are implemneted in standard library(libc). Standard C library (invokes the system call based on the
+		architecture. So User_space -> Standard C Library ( architecture dependant0 -> Linux_Kernel
+	5	If the system call fails then the kernel will return let's say -10 to the library function call. The library function call
+		will then return -1 to the user space calling function and will the global 'errno' vraible value to 10.
+	6.	Remember that errno could have stale value if the call is successful. So check for errno only whne you get a -1 return value from
+		the system call made through standard C library
+	7.	Man pages describe the system call from the standard C library perspective, so for 'read' you'll find a single
+		description in man pages but in the unistd.h header file , you'll see multiple definitions depending upon the architecture
+	8.	To read man page of system calls use : man system_call 2 ( remmeber 2 is for system calls. 1 is for coammands).
+		So 'man kill 1' is for 'kill' command
+
+	
+
+
