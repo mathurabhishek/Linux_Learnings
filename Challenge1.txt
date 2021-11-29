@@ -1,0 +1,67 @@
+1.	What version is your linux kernel running ?
+Ans	Do cat /proc/version
+
+2.	What is the size of kernel file that corresponds to the
+	kernel that your system is running.
+Ans.	Search for vmlinuz in boot directory witht the same version as 
+	the kernel from above. Do ls -la. Around 11 MB in my case.
+
+3.	How much RAM is available to your running kernel ?
+Ans.	See MemAvilable in meminfo
+	https://tldp.org/LDP/tlk/mm/memory.html
+	https://lynxbee.com/understanding-proc-meminfo-analyzing-linux-memory-utilization/
+ 
+4. 	Using strace,	determine  which system call is made the most by the command date.   
+Ans	strace date --summary
+
+5.	How can you strace a builtin command like "cd" ?
+Ans.	Attach strace to the bash. Open two terminals. from one terminal, attach  strace to he
+	Bash running in other terminal.Now invoke the cd command in the terminal to which strace os attached.
+
+6. 	How many system calls are dfined in your kernel source?
+Ans.	Look into /usr/src/linux-hwe-5.11.40xxxxx/include/uapi/asm-generic/unistd.h in your running system
+	Otherwise available in usr/include/uapi/asm-generic if you're looking into the source code.Look
+	for __NR. In my system it's 346.
+
+7.	What file descriptors does sleep function open ?
+Ans.	It opens up the pseudo terminal file descriptor for the terminal from which it is invoked. Points to /dev/pts. 
+	could be seen in /proc/pid/fd where pid is the pid returned after entering the sleep command.
+
+8.	Does your system has a PCI device?	
+Ans.	Yes. run lspci Or look into the the /sys.
+
+
+9.	What's the value of kernel variable ip_forward(/proc/sys) in your system ?
+Ans. 	found in /proc/sys/net/ipv4. The value is 0.
+
+10.	According to /sys/bock do you have a block device sda ? If So , do you have
+	device files partitions of sda?How many? Using Strace, does the command fdisk -l ( run as root), opens any files
+	under /sys/dev/block ?
+Ans.	Did that. Found that some of these are virtual. The real ones are mapped to /sys/dev/block
+
+11.	Get info on kernel boot log.
+Ans. 	Could be found from dmesg ( if it's not lost). Kern.log is persistent across boots. Syslog gives for current
+	boot
+
+12.	What other devices share major number with /dev/null?
+Ans.	full, kmsg, mem, null, port, random, urandom, zero
+
+
+Solutions:
+
+1.	uname -r
+2.	sizeof file pointed by vmlinuz in /boot
+3.	free or cat /proc/meminfo
+4.	use--> strace -c date
+info*	To grep both stdout and stderr pipe with &
+	So strace date |& grep read/write
+5.	cd is a builtin command which invokes system call 'chdir'. So this is done by shell itself and not by a separate process.
+	So write a script with a cd and put strace on script
+
+6.	grep "define __NR" unistd.h | wc -l . System call numbers aren't consecutive
+7.	stdout stderr stdinfo /dev/pts/1
+8.	
+9.	
+Info*	you can pipe find's output to grep for better regex
+10.	
+12.	Just because you have a device file, doesn't mean that you have a device.

@@ -47,7 +47,48 @@ Linux Kernel Messages
 	2.	with dmesg, we read the messages from RAM buffer
 	3	journalctl is the one which could be used to see historic messages on the disk
 
+/proc
+	1.	/proc is a virtual filesystem.So it's not there on the disk. proc stands for processes It provides runtime interaction with the kernel.
+	2. 	/proc can be used to have tunable variables in the kernel
+	3.	When a proc file is opened with cat, it actually makes a function call in the kernel and shows the returned data
+	4.	As it can now be understood easily, proc data is not persistent.
+	5.	Each process has a corresponding PID directory
+	6. 	PID directory has process details like memory, program, files etc.
+	7.	Each process has atleast 1 thread. Threads are listed as tasks.
 
-	
+/sys
+	1.	/sys file systems lists the hardware hierarchy as a file system representation
+	2.	It lists the information of the kernel modules
+	3.	Commands like lspci lists the pci devices by going through the /sysfs
+	4.	As new devices or hardware gets plugged in, new entries will emerge under sys file system
+	5.	The ko files are the data structures containing info of the kernel module to be linked with the kernel 
+
+/dev
+	1.	/dev is dynamically created these days
+	2.	has all the driver files
+
+ 
+
+
+BOOTING
+
+	1.	Starts iwth self-test. Control is then passed to BIOS. BIOS then loads the bootloader - GRUB
+	2.	GRUB loads kernel. Before that it might need to load some part of itself. It can mount initial file system ( a very basic one)
+	3.	You can interact with Grub. Tell it which kernel version to load etc.You can also configure it to load kernel from network.
+	4.	/etc/defualt/grub - soem info. /etc/grub.d -> used by grub to generate the config menu with which you want to boot.
+	5.	The files in /etc/grub.d are used in sequence to generate the config menu
+	6.	Custom changes can be added under 40_custom and 41_custom.
+	7.	Run grub2-mkconfig to generate new config file
+	8. 	Kernel source tree has Documentation directory. Documentation/kernel-parameters.txt which lists parameters that can be passed to
+		kernel while booting up.
+BOOTING2
+	1. 	Initrd - Initial ramdisk
+	2. 	first process init from initrd /usr/sbin/init
+	3.	Init could be poiniting to systemd
+	4.	Systemd are user space
+
+
+
+
 
 
